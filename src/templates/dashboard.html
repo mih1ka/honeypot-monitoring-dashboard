@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Honeypot Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        h1,
+        h4,
+        h5 {
+            color: #00e6a8;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 230, 168, 0.2);
+        }
+
+        .table {
+            color: #fff;
+        }
+
+        .table thead {
+            background-color: rgba(0, 230, 168, 0.15);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 230, 168, 0.1);
+        }
+
+        .badge {
+            font-size: 0.9rem;
+        }
+
+        img {
+            border: 2px solid rgba(0, 230, 168, 0.4);
+        }
+
+        .glow {
+            text-shadow: 0 0 8px #00e6a8;
+        }
+
+        footer {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+
+<body class="p-4">
+    <div class="container">
+        <h1 class="text-center mb-5 glow">🛡️ Honeypot Monitoring Dashboard</h1>
+
+        <!-- Health Section -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card p-4 text-center">
+                    <h5>Database Connection</h5>
+                    <span class="badge bg-{{ 'success' if health.db_connected else 'danger' }}">
+                        {{ 'Connected ✅' if health.db_connected else 'Disconnected ❌' }}
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4 text-center">
+                    <h5>Recent Attacks</h5>
+                    <span class="badge bg-{{ 'success' if health.recent_attacks else 'secondary' }}">
+                        {{ 'Detected ⚠️' if health.recent_attacks else 'None' }}
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4 text-center">
+                    <h5>Last Updated</h5>
+                    <p class="text-info">{{ health.last_updated }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4 text-center">
+                <div class="card p-3">
+                    <h5>📈 Attack Trend</h5>
+                    {% if plot_trend %}
+                    <img src="data:image/png;base64,{{ plot_trend }}" class="img-fluid rounded mt-2 shadow">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="card p-3">
+                    <h5>👾 Top 5 Attacker IPs</h5>
+                    {% if plot_ips %}
+                    <img src="data:image/png;base64,{{ plot_ips }}" class="img-fluid rounded mt-2 shadow">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="card p-3">
+                    <h5>🌍 Attacks by Country</h5>
+                    {% if plot_geo %}
+                    <img src="data:image/png;base64,{{ plot_geo }}" class="img-fluid rounded mt-2 shadow">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Table -->
+        <h4 class="mt-4 mb-3 glow">🧾 Recent Events</h4>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Timestamp</th>
+                        <th>Source IP</th>
+                        <th>Port</th>
+                        <th>Payload</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in events %}
+                    <tr>
+                        <td>{{ e.id }}</td>
+                        <td>{{ e.ts }}</td>
+                        <td><span class="badge bg-primary">{{ e.src_ip }}</span></td>
+                        <td><span class="badge bg-warning text-dark">{{ e.dst_port }}</span></td>
+                        <td>{{ e.payload }}</td>
+                        <td><span class="badge bg-success">{{ e.location or 'Unknown' }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>⚙️ Honeypot System | Securely monitoring threats in real time</p>
+        </footer>
+    </div>
+</body>
+
+</html>
