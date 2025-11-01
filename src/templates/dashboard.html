@@ -66,7 +66,7 @@
 
 <body class="p-4">
     <div class="container">
-        <h1 class="text-center mb-5 glow">🛡️ Honeypot Monitoring Dashboard</h1>
+        <h1 class="text-center mb-5 glow">Honeypot Monitoring Dashboard</h1>
 
         <!-- Health Section -->
         <div class="row g-4 mb-4">
@@ -98,7 +98,7 @@
         <div class="row g-4 mb-5">
             <div class="col-md-4 text-center">
                 <div class="card p-3">
-                    <h5>📈 Attack Trend</h5>
+                    <h5>Attack Trend</h5>
                     {% if plot_trend %}
                     <img src="data:image/png;base64,{{ plot_trend }}" class="img-fluid rounded mt-2 shadow">
                     {% endif %}
@@ -106,7 +106,7 @@
             </div>
             <div class="col-md-4 text-center">
                 <div class="card p-3">
-                    <h5>👾 Top 5 Attacker IPs</h5>
+                    <h5>Top 5 Attacker IPs</h5>
                     {% if plot_ips %}
                     <img src="data:image/png;base64,{{ plot_ips }}" class="img-fluid rounded mt-2 shadow">
                     {% endif %}
@@ -114,7 +114,7 @@
             </div>
             <div class="col-md-4 text-center">
                 <div class="card p-3">
-                    <h5>🌍 Attacks by Country</h5>
+                    <h5>Attacks by Country</h5>
                     {% if plot_geo %}
                     <img src="data:image/png;base64,{{ plot_geo }}" class="img-fluid rounded mt-2 shadow">
                     {% endif %}
@@ -123,7 +123,7 @@
         </div>
 
         <!-- Events Table -->
-        <h4 class="mt-4 mb-3 glow">🧾 Recent Events</h4>
+        <h4 class="mt-4 mb-3 glow">Recent Events</h4>
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle">
                 <thead class="table-dark">
@@ -152,7 +152,7 @@
         </div>
 
         <footer>
-            <p>⚙️ Honeypot System | Securely monitoring threats in real time</p>
+            <p>Honeypot System | Securely monitoring threats in real time</p>
         </footer>
     </div>
 </body>
