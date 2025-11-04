@@ -6,6 +6,8 @@ venv/
 logs/*.db
 logs/*.jsonl
 results/*.csv
+*.db-journal
+
 
 # Ignore cache and temp files
 __pycache__/
