@@ -3,287 +3,31 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Honeypot Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background: #0a0e27;
-            color: #e4e4e7;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
-            animation: gradientShift 15s ease infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes gradientShift {
-
-            0%,
-            100% {
-                transform: translate(0, 0);
-            }
-
-            50% {
-                transform: translate(10%, 10%);
-            }
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        h1 {
-            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-            font-size: 2.5rem;
-            letter-spacing: -0.02em;
-            margin-bottom: 3rem;
-        }
-
-        h4 {
-            color: #f0f0f0;
-            font-weight: 600;
-            font-size: 1.5rem;
-            letter-spacing: -0.01em;
-        }
-
-        h5 {
-            color: #d1d5db;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            backdrop-filter: blur(20px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .health-card {
-            padding: 1.5rem;
-        }
-
-        .health-card h5 {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #9ca3af;
-            margin-bottom: 1rem;
-        }
-
-        .health-value {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        .table-container {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 1.5rem;
-            backdrop-filter: blur(20px);
-        }
-
-        .table {
-            color: #e4e4e7;
-            margin-bottom: 0;
-        }
-
-        .table thead th {
-            background: transparent;
-            border-bottom: 2px solid rgba(16, 185, 129, 0.2);
-            color: #9ca3af;
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 1rem;
-        }
-
-        .table tbody td {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 1rem;
-            vertical-align: middle;
-        }
-
-        .table-hover tbody tr {
-            transition: all 0.2s ease;
-        }
-
-        .table-hover tbody tr:hover {
-            background-color: rgba(16, 185, 129, 0.08);
-            transform: scale(1.01);
-        }
-
-        .badge {
-            font-size: 0.8rem;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            font-weight: 500;
-            letter-spacing: 0.01em;
-        }
-
-        .bg-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .bg-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-        }
-
-        .bg-secondary {
-            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
-        }
-
-        .bg-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-        }
-
-        .bg-warning {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-        }
-
-        .text-info {
-            color: #60a5fa !important;
-            font-weight: 500;
-        }
-
-        img {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        .chart-card {
-            padding: 1.5rem;
-            height: 100%;
-        }
-
-        .chart-card img {
-            margin-top: 1rem;
-        }
-
-        footer {
-            text-align: center;
-            color: #6b7280;
-            font-size: 0.875rem;
-            margin-top: 4rem;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-left: 0.5rem;
-            animation: pulse 2s infinite;
-        }
-
-        .status-connected {
-            background: #10b981;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
-        }
-
-        .status-warning {
-            background: #f59e0b;
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .metric-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.7;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .card {
-                margin-bottom: 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 </head>
 
 <body class="p-4">
     <div class="container">
-        <h1 class="text-center mb-5">Honeypot Monitoring Dashboard</h1>
+        <div class="header-container">
+            <h1 class="text-center mb-5">
+                <span class="header-icon">🛡️</span>
+                HONEYPOT MONITORING SYSTEM
+                <span class="header-icon">🛡️</span>
+            </h1>
+            <div class="header-line"></div>
+        </div>
 
         <!-- Health Section -->
         <div class="row g-4 mb-5">
             <div class="col-md-4">
                 <div class="card health-card text-center">
+                    <div class="card-corner top-left"></div>
+                    <div class="card-corner top-right"></div>
+                    <div class="card-corner bottom-left"></div>
+                    <div class="card-corner bottom-right"></div>
                     <div class="metric-icon">🔗</div>
                     <h5>Database Connection</h5>
                     <span class="badge bg-{{ 'success' if health.db_connected else 'danger' }}">
@@ -295,6 +39,10 @@
             </div>
             <div class="col-md-4">
                 <div class="card health-card text-center">
+                    <div class="card-corner top-left"></div>
+                    <div class="card-corner top-right"></div>
+                    <div class="card-corner bottom-left"></div>
+                    <div class="card-corner bottom-right"></div>
                     <div class="metric-icon">⚡</div>
                     <h5>Recent Attacks</h5>
                     <span class="badge bg-{{ 'warning' if health.recent_attacks else 'secondary' }}">
@@ -305,6 +53,10 @@
             </div>
             <div class="col-md-4">
                 <div class="card health-card text-center">
+                    <div class="card-corner top-left"></div>
+                    <div class="card-corner top-right"></div>
+                    <div class="card-corner bottom-left"></div>
+                    <div class="card-corner bottom-right"></div>
                     <div class="metric-icon">🕐</div>
                     <h5>Last Updated</h5>
                     <p class="text-info health-value">{{ health.last_updated }}</p>
@@ -316,32 +68,54 @@
         <div class="row g-4 mb-5">
             <div class="col-md-4">
                 <div class="card chart-card text-center">
-                    <h5>Attack Trend</h5>
+                    <div class="card-corner top-left"></div>
+                    <div class="card-corner top-right"></div>
+                    <div class="card-corner bottom-left"></div>
+                    <div class="card-corner bottom-right"></div>
+                    <h5>📈 Attack Trend</h5>
                     {% if plot_trend %}
                     <img src="data:image/png;base64,{{ plot_trend }}" class="img-fluid rounded shadow">
+                    {% else %}
+                    <p class="text-muted mt-3">No data available</p>
                     {% endif %}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card chart-card text-center">
-                    <h5>Top 5 Attacker IPs</h5>
+                    <div class="card-corner top-left"></div>
+                    <div class="card-corner top-right"></div>
+                    <div class="card-corner bottom-left"></div>
+                    <div class="card-corner bottom-right"></div>
+                    <h5>🎯 Top 5 Attacker IPs</h5>
                     {% if plot_ips %}
                     <img src="data:image/png;base64,{{ plot_ips }}" class="img-fluid rounded shadow">
+                    {% else %}
+                    <p class="text-muted mt-3">No data available</p>
                     {% endif %}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card chart-card text-center">
-                    <h5>Attacks by Country</h5>
+                    <div class="card-corner top-left"></div>
+                    <div class="card-corner top-right"></div>
+                    <div class="card-corner bottom-left"></div>
+                    <div class="card-corner bottom-right"></div>
+                    <h5>🌍 Attacks by Country</h5>
                     {% if plot_geo %}
                     <img src="data:image/png;base64,{{ plot_geo }}" class="img-fluid rounded shadow">
+                    {% else %}
+                    <p class="text-muted mt-3">No data available</p>
                     {% endif %}
                 </div>
             </div>
         </div>
 
         <!-- Events Table -->
-        <h4 class="mt-5 mb-4">Recent Events</h4>
+        <h4 class="mt-5 mb-4">
+            <span class="section-line"></span>
+            📋 Recent Events
+            <span class="section-line"></span>
+        </h4>
         <div class="table-container">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -365,6 +139,10 @@
                             <td>{{ e.payload }}</td>
                             <td><span class="badge bg-success">{{ e.location or 'Unknown' }}</span></td>
                         </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No events found</td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -372,9 +150,12 @@
         </div>
 
         <footer>
-            <p>Honeypot System | Securely monitoring threats in real time</p>
+            <div class="footer-line"></div>
+            <p>🛡️ HONEYPOT SYSTEM | SECURELY MONITORING THREATS IN REAL TIME</p>
         </footer>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
