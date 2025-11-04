@@ -1,139 +1,128 @@
 # Honeypot Monitoring System
+A real-time cybersecurity monitoring system that simulates vulnerable services to detect, log, and visualize unauthorized access attempts. Designed for network security monitoring, threat intelligence, and educational purposes.
 
 ## Overview
-The **Honeypot Monitoring System** is a lightweight Python and Flask-based project designed to simulate a vulnerable service that logs connection attempts. It captures details such as **source IP address, destination port, payload, and location**, storing them in an **SQLite database**. The system also provides a **real-time monitoring dashboard** that visualizes attacks, displays statistics, and helps analyze suspicious activity.
 
----
+The Honeypot Monitoring System is a comprehensive security tool that:
+- Simulates vulnerable services to attract potential attackers
+- Captures detailed attack data including IPs, ports, and payloads
+- Visualizes threats through an interactive real-time dashboard
+- Stores intelligence in a structured database for analysis
 
-## Problem Statement
-In modern networks, **cyber attacks often go undetected** until serious damage occurs. Network administrators need a **simple and effective way** to monitor, detect, and analyze unauthorized access attempts. Traditional intrusion detection systems can be **complex or expensive**, particularly for small organizations or students.
+Ideal for security researchers, network administrators, students, and anyone interested in understanding attack patterns.
 
----
+## Key Features
 
-## Proposed Solution
-This project implements a **low-interaction honeypot** that:
+### Threat Detection
+- Real-time connection monitoring on multiple ports
+- Payload capture and analysis
+- IP geolocation mapping with country detection
+- Comprehensive logging of all connection attempts
 
-- Listens for incoming network requests.
-- Records attack data in a database.
-- Displays the collected data on a **Flask-based web dashboard** with:
-  - Statistics
-  - Attack graphs
-  - Event logs  
+### Analytics & Visualization
+- Interactive dashboard with real-time updates
+- Attack trend analysis over time
+- Top attacker IPs identification
+- Geographic attack distribution maps
+- Port-based attack statistics
 
-This approach allows for **easy visualization and analysis** of suspicious activity.
-
----
-
-## Features
-
-- **Connection Capture:** Logs every incoming connection attempt with:
-  - Source IP
-  - Destination port
-  - Payload
-- **Database Storage:** Uses **SQLite** for lightweight and reliable event storage.
-- **Dashboard Visualization:** Interactive dashboard showing:
-  - Total events recorded
-  - Unique IPs detected
-  - Attack frequency by port
-  - Recent attack events table
-- **Attack Analytics:**  
-  - Bar chart of attack counts by port  
-  - Optional pie chart by country
-- **System Health Status:** Displays connection and activity indicators.
-- **Lightweight & Portable:** Works on any system with Python installed.
-
----
+### System Capabilities
+- Lightweight and portable - runs anywhere Python is installed
+- SQLite database for reliable data storage
+- RESTful API ready for extensions
+- Health monitoring with status indicators
+- Responsive design works on desktop and mobile
 
 ## Project Structure
-
-honeypot-project/
+honeypot-monitoring-dashboard/
 │
 ├── src/
-│ ├── honeypot.py # Main honeypot script (captures events)
-│ ├── dashboard.py # Flask dashboard for visualization
-│ ├── utils.py # Helper functions (optional)
-│ ├── logs/
-│ │ └── honeypot.db # SQLite database storing event logs
+│ ├── honeypot.py # Main honeypot service
+│ ├── app.py # Flask dashboard application
+│ ├── static/
+│ │ └── css/
+│ │ └── dashboard.css # Custom styling
 │ └── templates/
-│ └── dashboard.html # Dashboard frontend (HTML template)
+│ └── dashboard.html # Dashboard template
 │
-├── requirements.txt # Python dependencies
-├── README.md # Project documentation
-└── .gitignore # Ignored files and directories
+├── logs/
+│ └── honeypot.db # SQLite database
+│
+├── requirements.txt # Dependencies
+├── README.md # Documentation
+└── .gitignore # Git exclusions
 
 
----
+## Installation & Setup
 
-## Technologies Used
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
 
-- **Python 3**
-- **Flask** (Web Framework)
-- **SQLite** (Database)
-- **Matplotlib** (Data Visualization)
-- **Bootstrap / HTML** (Frontend Design)
+### Quick Start
 
----
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/mih1ka/honeypot-monitoring-dashboard.git
+   cd honeypot-monitoring-dashboard
 
-## Installation and Setup
+2. Set up virtual environment
+   # Create virtual environment
+    python -m venv venv
+    # Activate environment
+    # On Windows:
+    venv\Scripts\activate
+    # On Linux/Mac:
+    source venv/bin/activate
+    
+3. Install dependencies
+    pip install -r requirements.txt
+4. Start the honeypot :The honeypot will start listening for connections
+    cd src
+    python honeypot.py
+5. Launch the dashboard (in a new terminal)
+    cd src
+    python app.py
+6. Access the dashboard
+    Open your browser and navigate to: http://127.0.0.1:5000
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/YOUR_USERNAME/honeypot-monitoring-system.git
-cd honeypot-monitoring-system
-2. Create and Activate a Virtual Environment
+## Usage Examples
+### Production Monitoring
+- Detect unauthorized access attempts
+- Monitor network perimeter security
+- Gather threat intelligence data
 
-Windows:
+### Research & Development
+- Test security monitoring tools
+- Develop new detection algorithms
+- Academic cybersecurity research
 
-python -m venv venv
-venv\Scripts\activate
+## Future Enhancements
+
+### Planned Features
+- Email/Telegram alerts for critical attacks
+- Advanced threat intelligence integration
+- Multi-honeypot deployment support
+- REST API for external integrations
+- Cloud deployment options (AWS, Azure, GCP)
+
+### Advanced Analytics
+- Machine learning anomaly detection
+- Attack correlation engine
+- Threat scoring system
+- Custom report generation
+
+## Author
+
+**Mihika Manish**
+- GitHub: [@mih1ka](https://github.com/mih1ka)
+- Project: [Honeypot Monitoring Dashboard](https://github.com/mih1ka/honeypot-monitoring-dashboard)
+
+Developed as part of Computer Networks coursework to demonstrate practical cybersecurity monitoring techniques.
 
 
-Linux/Mac:
-
-python -m venv venv
-source venv/bin/activate
-
-3. Install Dependencies
-pip install -r requirements.txt
-
-4. Run the Honeypot
-cd src
-python honeypot.py
 
 
-This will start listening for incoming connections and recording them in the database.
-
-5. Run the Dashboard
-
-Open a new terminal in the same folder:
-
-python dashboard.py
 
 
-Then visit: http://127.0.0.1:5000
- to view the monitoring dashboard.
 
-Output Preview
-
-Dashboard Metrics: Total events, unique IPs, recent attacks
-
-Attack Graph: Bar chart showing frequency of attacks per port
-
-Event Table: Displays timestamp, source IP, port, and payload
-
-Health Indicators: Shows database connection status and last update
-
-Future Enhancements
-
-Integration with an external threat intelligence API for IP geolocation
-
-Real-time alert system via email or Telegram for new attacks
-
-Advanced analytics dashboard with filtering and search options
-
-Cloud deployment for continuous monitoring
-
-Author
-
-Mihika Manish
-This project was developed as part of my Computer Networks course.
